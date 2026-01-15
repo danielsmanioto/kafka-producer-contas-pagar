@@ -37,7 +37,7 @@ class ContasPagar:
 ### 1️⃣ Pré-requisitos
 
 - Docker e Docker Compose instalados
-- Python 3.7+ instalado
+- Python 3.9+ instalado
 
 ### 2️⃣ Subir a Infraestrutura Kafka
 

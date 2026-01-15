@@ -3,6 +3,7 @@ Test class for Kafka Producer - Contas Pagar
 Classe de teste para inserir várias mensagens no Kafka
 """
 import random
+import time
 from datetime import datetime, timedelta
 from kafka_producer_contas import ContasPagar, KafkaProducerContasPagar
 
@@ -21,16 +22,20 @@ class TestKafkaProducerContasPagar:
         self.usuarios = ['admin', 'financeiro', 'gerente', 'supervisor', 'operador']
         self.status_list = ['pendente', 'pago', 'vencido', 'cancelado']
     
-    def generate_random_conta(self, id: int) -> ContasPagar:
+    def generate_random_conta(self, id: int = None) -> ContasPagar:
         """
         Generate a random ContasPagar object for testing
         
         Args:
-            id: Unique ID for the conta
+            id: Unique ID for the conta (if None, generates timestamp-based ID)
             
         Returns:
             ContasPagar: Random conta object
         """
+        # Generate unique ID based on timestamp if not provided
+        if id is None:
+            id = int(time.time() * 1000000)  # Microsecond timestamp
+        
         # Random date in the last 90 days
         days_ago = random.randint(0, 90)
         data = (datetime.now() - timedelta(days=days_ago)).strftime('%Y-%m-%d')
@@ -84,7 +89,9 @@ class TestKafkaProducerContasPagar:
         """
         print(f"\n=== Testing {count} Random Messages ===")
         
-        contas = [self.generate_random_conta(i + 1) for i in range(count)]
+        # Generate unique IDs using timestamp to avoid duplicates
+        base_id = int(time.time() * 1000)
+        contas = [self.generate_random_conta(base_id + i) for i in range(count)]
         
         success_count, failure_count = self.producer.publish_batch(contas)
         
@@ -100,9 +107,12 @@ class TestKafkaProducerContasPagar:
         """Test specific business scenarios"""
         print("\n=== Testing Specific Scenarios ===")
         
+        # Generate unique base ID for this test run
+        base_id = int(time.time() * 1000) + 1000000
+        
         scenarios = [
             ContasPagar(
-                id=101,
+                id=base_id + 1,
                 centro_custo_id=200,
                 valor_previsto=5000.00,
                 valor_pago=None,
@@ -111,7 +121,7 @@ class TestKafkaProducerContasPagar:
                 usuario='financeiro'
             ),
             ContasPagar(
-                id=102,
+                id=base_id + 2,
                 centro_custo_id=200,
                 valor_previsto=3000.00,
                 valor_pago=3000.00,
@@ -120,7 +130,7 @@ class TestKafkaProducerContasPagar:
                 usuario='admin'
             ),
             ContasPagar(
-                id=103,
+                id=base_id + 3,
                 centro_custo_id=300,
                 valor_previsto=2500.00,
                 valor_pago=None,
@@ -129,7 +139,7 @@ class TestKafkaProducerContasPagar:
                 usuario='gerente'
             ),
             ContasPagar(
-                id=104,
+                id=base_id + 4,
                 centro_custo_id=150,
                 valor_previsto=7500.00,
                 valor_pago=5000.00,

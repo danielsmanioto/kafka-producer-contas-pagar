@@ -5,7 +5,7 @@ Lambda-style clean implementation
 import json
 from dataclasses import dataclass, asdict
 from datetime import datetime
-from typing import Optional
+from typing import Optional, List
 from kafka import KafkaProducer
 
 
@@ -85,7 +85,7 @@ class KafkaProducerContasPagar:
             print(f"✗ Error publishing message: {str(e)}")
             return False
     
-    def publish_batch(self, contas: list[ContasPagar]) -> tuple[int, int]:
+    def publish_batch(self, contas: List[ContasPagar]) -> tuple:
         """
         Publish multiple Contas Pagar messages to Kafka
         
