@@ -12,6 +12,7 @@
 
 - [Visão geral](#-visão-geral)
 - [Infraestrutura oficial](#-infraestrutura-oficial)
+- [Estrutura do projeto](#-estrutura-do-projeto)
 - [Como executar](#-como-executar)
 - [Configuração](#-configuração)
 - [Modelo de dados](#-modelo-de-dados)
@@ -29,6 +30,25 @@ Este projeto publica mensagens de contas a pagar para processamento assíncrono 
 Este repositório **não possui mais infraestrutura própria**. Utilize:
 
 - [danielsmanioto/infra-gerenciador-pessoal](https://github.com/danielsmanioto/infra-gerenciador-pessoal)
+
+## 🗂 Estrutura do projeto
+
+```text
+kafka-producer-contas-pagar/
+├── src/
+│   └── kafka_producer_contas_pagar/
+│       ├── __init__.py
+│       └── producer.py
+├── tests/
+│   └── test_kafka_producer.py
+├── examples/
+│   └── example_usage.py
+├── kafka_producer_contas.py   # wrapper de compatibilidade
+├── test_kafka_producer.py     # wrapper de compatibilidade
+├── example_usage.py           # wrapper de compatibilidade
+├── requirements.txt
+└── README.md
+```
 
 ## 🚀 Como executar
 
@@ -58,6 +78,12 @@ pip install -r requirements.txt
 
 ```bash
 python kafka_producer_contas.py
+```
+
+Ou executando módulo da nova estrutura:
+
+```bash
+python examples/example_usage.py
 ```
 
 ## ⚙️ Configuração
@@ -96,6 +122,12 @@ class ContasPagar:
 
 ```bash
 python test_kafka_producer.py
+```
+
+Ou:
+
+```bash
+python tests/test_kafka_producer.py
 ```
 
 Cobertura principal:
