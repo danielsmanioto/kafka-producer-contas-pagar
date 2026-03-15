@@ -2,6 +2,7 @@
 Test class for Kafka Producer - Contas Pagar
 Classe de teste para inserir várias mensagens no Kafka
 """
+import os
 import random
 import time
 from datetime import datetime, timedelta
@@ -11,13 +12,14 @@ from kafka_producer_contas import ContasPagar, KafkaProducerContasPagar
 class TestKafkaProducerContasPagar:
     """Test class for sending multiple messages to Kafka"""
     
-    def __init__(self, bootstrap_servers: str = 'localhost:9092'):
+    def __init__(self, bootstrap_servers: str = None):
         """
         Initialize test class
         
         Args:
             bootstrap_servers: Kafka broker address
         """
+        bootstrap_servers = bootstrap_servers or os.getenv('KAFKA_BOOTSTRAP_SERVERS', 'localhost:9092')
         self.producer = KafkaProducerContasPagar(bootstrap_servers=bootstrap_servers)
         self.usuarios = ['admin', 'financeiro', 'gerente', 'supervisor', 'operador']
         self.status_list = ['pendente', 'pago', 'vencido', 'cancelado']

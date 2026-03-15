@@ -1,12 +1,14 @@
-"""
-Kafka Producer for Contas Pagar (Accounts Payable)
-Lambda-style clean implementation
-"""
+"""Kafka Producer for Contas Pagar (Accounts Payable)."""
 import json
+import os
 from dataclasses import dataclass, asdict
 from datetime import datetime
 from typing import Optional, List
 from kafka import KafkaProducer
+
+
+DEFAULT_BOOTSTRAP_SERVERS = os.getenv('KAFKA_BOOTSTRAP_SERVERS', 'localhost:9092')
+DEFAULT_TOPIC = os.getenv('KAFKA_TOPIC_CONTAS_PAGAR', 'contas-pagar-topic')
 
 
 @dataclass
@@ -34,8 +36,8 @@ class KafkaProducerContasPagar:
     
     def __init__(
         self,
-        bootstrap_servers: str = 'localhost:9092',
-        topic: str = 'contas-pagar'
+        bootstrap_servers: Optional[str] = None,
+        topic: Optional[str] = None
     ):
         """
         Initialize Kafka Producer
@@ -44,7 +46,8 @@ class KafkaProducerContasPagar:
             bootstrap_servers: Kafka broker address
             topic: Topic name for publishing messages
         """
-        self.topic = topic
+        bootstrap_servers = bootstrap_servers or DEFAULT_BOOTSTRAP_SERVERS
+        self.topic = topic or DEFAULT_TOPIC
         self.producer = KafkaProducer(
             bootstrap_servers=bootstrap_servers,
             value_serializer=lambda v: json.dumps(v, ensure_ascii=False).encode('utf-8'),

@@ -91,7 +91,7 @@ def example_4_custom_configuration():
     # You can customize the Kafka connection
     producer = KafkaProducerContasPagar(
         bootstrap_servers='localhost:9092',  # Custom server
-        topic='contas-pagar'                  # Custom topic
+        topic='contas-pagar-topic'            # Custom topic
     )
     
     conta = ContasPagar(
