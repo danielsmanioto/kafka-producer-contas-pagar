@@ -1,27 +1,43 @@
 # Kafka Producer - Contas Pagar
 
-Produtor Kafka em Python para publicação de eventos de contas a pagar no tópico `contas-pagar-topic`.
+> Produtor Kafka em Python para publicação de eventos financeiros no tópico `contas-pagar-topic`.
 
-## 📋 Descrição
+[![Python](https://img.shields.io/badge/Python-3.9%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/)
+[![Kafka](https://img.shields.io/badge/Apache-Kafka-231F20?logo=apachekafka&logoColor=white)](https://kafka.apache.org/)
+[![Status](https://img.shields.io/badge/Producer-Ativo-success)](#)
 
-Este projeto publica mensagens no ecossistema do Gerenciador Pessoal e foi ajustado para usar a infraestrutura centralizada do repositório `infra-gerenciador-pessoal`.
+---
+
+## 📑 Sumário
+
+- [Visão geral](#-visão-geral)
+- [Infraestrutura oficial](#-infraestrutura-oficial)
+- [Como executar](#-como-executar)
+- [Configuração](#-configuração)
+- [Modelo de dados](#-modelo-de-dados)
+- [Testes](#-testes)
+- [Troubleshooting](#-troubleshooting)
+
+---
+
+## 🌐 Visão geral
+
+Este projeto publica mensagens de contas a pagar para processamento assíncrono pelo consumer Java da solução.
 
 ## 🔗 Infraestrutura oficial
 
-Este projeto **não mantém mais infraestrutura própria**.
-
-Toda a infraestrutura local foi centralizada em:
+Este repositório **não possui mais infraestrutura própria**. Utilize:
 
 - [danielsmanioto/infra-gerenciador-pessoal](https://github.com/danielsmanioto/infra-gerenciador-pessoal)
 
-## 🚀 Como usar
+## 🚀 Como executar
 
-### 1. Pré-requisitos
+### 1) Pré-requisitos
 
 - Python 3.9+
 - Docker e Docker Compose
 
-### 2. Suba a infraestrutura centralizada
+### 2) Subir infraestrutura centralizada
 
 ```bash
 git clone https://github.com/danielsmanioto/infra-gerenciador-pessoal.git
@@ -29,7 +45,7 @@ cd infra-gerenciador-pessoal
 docker compose up -d
 ```
 
-### 3. Instale as dependências
+### 3) Instalar dependências
 
 ```bash
 cd ../kafka-producer-contas-pagar
@@ -38,7 +54,7 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### 4. Execute o produtor
+### 4) Executar producer
 
 ```bash
 python kafka_producer_contas.py
@@ -46,14 +62,14 @@ python kafka_producer_contas.py
 
 ## ⚙️ Configuração
 
-O produtor usa variáveis de ambiente com fallback local:
+Variáveis suportadas:
 
 ```bash
 export KAFKA_BOOTSTRAP_SERVERS=localhost:9092
 export KAFKA_TOPIC_CONTAS_PAGAR=contas-pagar-topic
 ```
 
-Ou via código:
+Também pode ser configurado no código:
 
 ```python
 producer = KafkaProducerContasPagar(
@@ -82,23 +98,15 @@ class ContasPagar:
 python test_kafka_producer.py
 ```
 
-Os testes cobrem:
+Cobertura principal:
 
-- ✅ Envio de mensagem única
-- ✅ Envio de múltiplas mensagens
-- ✅ Cenários de negócio
-
-## 📦 Características
-
-- ✨ Código simples e reutilizável
-- 🔄 Publicação em lote
-- 🔑 Chave por ID da conta
-- 🗜️ Compressão gzip
-- ✅ `acks='all'` e retry habilitado
+- envio unitário
+- envio em lote
+- cenários de negócio
 
 ## 🐛 Troubleshooting
 
-Se o Kafka não conectar:
+Se houver erro de conexão com Kafka:
 
 ```bash
 cd ../infra-gerenciador-pessoal
@@ -108,8 +116,4 @@ docker compose logs -f kafka
 
 ## 📝 Licença
 
-Este é um projeto pessoal de gerenciamento financeiro.
-
-## 👨‍💻 Autor
-
-Daniel Smanioto
+Projeto pessoal para estudo e evolução arquitetural.
