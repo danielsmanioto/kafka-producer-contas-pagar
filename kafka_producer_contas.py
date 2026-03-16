@@ -21,7 +21,7 @@ if __name__ == "__main__":
     # Example usage (kept for backward compatibility)
     example_conta = ContasPagar(
         id=1,
-        centro_custo_id=100,
+        centro_custo_id=1,
         valor_previsto=1500.00,
         valor_pago=1500.00,
         data=datetime.now().strftime('%Y-%m-%d'),
